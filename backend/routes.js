@@ -5,9 +5,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 const router = express.Router();
-
-// JWT Secret Key
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET || 'my-secret-key';
 
 // Helper function to generate JWT token
 const generateToken = (user) => {
@@ -22,7 +20,7 @@ router.get('/message', (req, res) => {
     res.json({ message: 'Hello from the backend!' });
 });
 
-// add a user
+  // add a user
 router.post('/addUser' , async(req , res)=>{
 
     try { 
@@ -68,7 +66,7 @@ router.post('/signup', async (req, res) => {
         const { username, email, password, role } = req.body;
 
         console.log('Signup attempt for:', { username, email, role });
-
+        
         // Check if user already exists
         const existingUser = await pool.request()
             .input('username', sql.NVarChar, username)
@@ -87,7 +85,7 @@ router.post('/signup', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
         console.log('Original password:', password);
         console.log('Hashed password:', hashedPassword);
-
+       
         // Create user using direct SQL query
         const result = await pool.request()
             .input('username', sql.NVarChar, username)
@@ -470,5 +468,30 @@ router.post('/doubleCaptainPlayer' , async(req , res)=>{
     }
 
 })
+
+// Get team budget by user ID
+router.get('/getTeamBudget/:userId', async (req, res) => {
+    try {
+        const pool = await connectDB();
+        const { userId } = req.params;
+
+        const result = await pool.request()
+            .input('userId', sql.Int, userId)
+            .query(`
+                SELECT budgetRemaining 
+                FROM Teams 
+                WHERE userId = @userId
+            `);
+
+        if (result.recordset.length === 0) {
+            return res.status(404).json({ msg: 'Team not found' });
+        }
+
+        res.json({ budget: result.recordset[0].budgetRemaining });
+    } catch (err) {
+        console.error('Error fetching team budget:', err);
+       
+    }
+});
 
 export default router
