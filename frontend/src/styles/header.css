@@ -1,0 +1,41 @@
+.headerarea{
+    background: linear-gradient( to right,
+    rgb(0, 84, 209) , rgb(1, 136, 160) ,rgb(0, 84, 209) );
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 85px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; 
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px; 
+      
+}
+.leftheader{
+    flex-shrink: 0;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    
+ }
+.middleheader{
+    
+    display: flex;
+    flex: 1;
+    margin-left: 8px;
+    margin-right: 8px;
+    width: 200px;
+    max-width: 500px;
+    align-items: center;
+    color: bisque;
+    justify-content: center;
+    
+}
+.rightheader{
+    display: flex;
+    align-items: center;
+    width: 200px;
+    flex-shrink: 0;
+}
