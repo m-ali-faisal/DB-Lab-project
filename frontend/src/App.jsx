@@ -1,3 +1,6 @@
+//main file is very important
+
+
 import { useEffect, useState, createContext } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/home.jsx';
